@@ -1,0 +1,46 @@
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <h1 class="h3 mb-3">User Managment</h1>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">User Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover my-0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="d-none d-xl-table-cell">Email</th>
+                                    {% comment %} <th class="d-none d-xl-table-cell">Edit</th> {% endcomment %}
+                                    <th>Action</th>
+                                    <th class="d-none d-md-table-cell">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for u in users %}
+                                <tr>
+                                    <td>{{u.first_name}}</td>
+                                    <td class="d-none d-xl-table-cell">{{u.email}}</td>
+                                    {% comment %} <td class="d-none d-xl-table-cell"><i class="fa fa-pen"></td> {% endcomment %}
+                                        {% if u.is_active %}
+                                    <td><a class="btn btn-sm btn-danger" href="{% url 'userblock' u.id %}">Block</a></td>
+                                    <td class="d-none d-md-table-cell"><span class="badge bg-success">{{u.is_active}}</span></td>
+                                        {% else %}
+                                        <td><a class="btn btn-sm btn-success" href="{% url 'userblock' u.id %}">Unblock</a></td>
+                                    <td class="d-none d-md-table-cell"><span class="badge bg-danger">False</span></td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>

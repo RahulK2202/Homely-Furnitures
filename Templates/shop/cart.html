@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+
+
+<!--================Home Banner Area =================-->
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<center>
+           <h3>Cart</h3>
+       </center>
+<!-- breadcrumb start-->
+{% for message in messages %}
+
+<div class="alert alert-danger" role="alert">
+
+  {{message}}
+
+</div>
+
+{% endfor %}
+
+{% if total > 0 %}
+
+
+
+
+
+
+<!--================Cart Area =================-->
+<section class="cart_area padding_top">
+  <form
+              class="row contact_form"
+              action="{% url 'carts:checkout' %}"
+              method="POST"
+            >
+  {% csrf_token %}
+  <div class="container">
+    <div class="cart_inner">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for item in cart_items %}
+            <tr>
+              <td>
+                <div class="media">
+                  <div class="d-flex">
+                    <img src="{{ item.product.images.url }}" alt="" style="height: 70px;">
+                  </div>
+                  <div class="media-body">
+                    <p>{{ item.product.product_name }}</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <h5>${{ item.product.price }}</h5>
+              </td>
+              <td>
+                <div class="product_count">
+
+                  <a href="{% url 'carts:removeCartItem' item.product.id %}" > <i class="fas fa-minus"></i></a>
+                  <input class="input-number" name="quantity" type="text" value="{{item.quantity}}" min="0" max="100">
+                  <a href="{% url 'carts:addCartItem' item.product.id %}" > <i class="fas fa-plus"></i></a>
+                </div>
+              </td>
+              <td>
+                <h5>{{ item.price }}</h5>
+              </td>
+              <td>
+                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                  <a href="{% url 'carts:removeCartProduct' item.product.id  %}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+            <tr class="bottom_button">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+              </td>
+
+              <td></td>
+              <td>
+                <h5>Subtotal</h5>
+              </td>
+              <td>
+                <h5>₹{{total}}</h5>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+    <h4 class="font-weight-bold mt-0 mb-4">Select your Delivery Address</h4>
+
+    <!-- Default unchecked -->
+
+<header class="card-header mr-auto">
+
+            <a href="{% url 'userapp:addNewAddress' 1 %}" class="btn btn-info" role="button">+ Add New Address</a>
+                        </header>
+
+    {% for address in AllAddress%}
+    <div class="custom-control custom-checkbox">
+      <input type="radio" class="custom-control-input" id="{{address}}" name="addressSelected" value="{{address.id}}">
+        <label class="custom-control-label" for="{{address}}" style="width: 100%;">
+          <div class="col-md-9">
+            <div class="row bg-white card addresses-item mb-4 border border-primary shadow">
+              <div class="osahan-account-page-right shadow-sm bg-white p-4 h-100" >
+                <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade  active show" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
+                    <h3 class="mb-1 text-secondary"> {{address.full_name}}</h3>
+                    <h5 class="mb-1 text-secondary">{{address.phone}}</h5>
+                    <h5 class="mb-1 text-secondary">{{address.email}}</h5>
+                    <p class="text-black">{{address.full_address}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+    {% endfor%}
+        <div class="checkout_btn_inner float-right">
+          <a class="btn_1" href="{% url 'category' %}">Continue Shopping</a>
+          <button type ="submit" class="btn_1 checkout_btn_1">
+
+            Proceed to checkout
+          </button>
+        </div>
+      </div>
+    </div>
+    </form>
+</section>
+{%else%}
+<h3> <a class="nav-link" href="{% url 'category' %}">Keep Shoping and Add Products</a></h3>
+{%endif%}
+{% endblock %}
+

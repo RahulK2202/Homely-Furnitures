@@ -1,0 +1,382 @@
+
+{% load static %}
+<!doctype html>
+<html lang="zxx">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Homely</title>
+    <link rel="icon" href="{% static 'img/homely.png' %}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- animate CSS -->
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <!-- flaticon CSS -->
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <!-- swiper CSS -->
+    <link rel="stylesheet" href="{% static 'css/slick.css' %}">
+    <!-- style CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <header class="top-margin: 10px;">
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+            <a class="navbar-brand" href="{% url 'userapp:home' %}"> <img src="{% static 'img/homely.png' %}" style="width:200px " alt="logo"> </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse"  id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'userapp:home' %}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'category' %}">Shop</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="">Contact Us</a>
+                    </li>
+                    {% if user.id is None %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'userapp:login' %}">Login</a>
+                        </li>
+                    {%endif%}
+                </ul>
+                <div >
+                    <!-- <input type="text" class="form-control mr-sm-2" name="keyword" placeholder="Search" style="display: inline-block;" aria-label="Search" style="width: 75%;"> -->
+                    <!-- <button class="btn btn-outline-success my-2 my-sm-0" style="border-radius: 10px;"style="display: inline-block;"type="submit">Search</button> -->
+                    <form method="GET" action="{% url 'search' %}" class="form-inline my-2 my-lg-0" style="display: inline-block;">
+                        <div class="input-group">
+                            <div class="form-outline">
+                                <input type="text" name="keyword" placeholder="Search" class="form-control me-2" style="border-radius: 6px;" />
+                            </div>
+                            &nbsp;&nbsp;&nbsp;
+                            <button type="submit" class="btn btn-outline-success">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="d-flex justify-content-between">
+                    {%if user.id is not None%}
+                    <ul>
+                        <li class="nav-item nav-link">Hi, {{user.username}}</li>
+                    </ul>
+                        <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" type="button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="far fa-user-circle"></i> &nbsp;My Profile
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #000000;">
+                            <a class="dropdown-item" href="{% url 'userapp:dashboard' %}" style="background-color: #000000;">My Account</a>
+                            <a class="dropdown-item" href="{% url 'order:myorders' %}" style="background-color: #000000;">My Orders</a>
+                            <div class="dropdown-divider " ></div>
+                            <a class="dropdown-item" href="{% url 'userapp:logout' %}" style="background-color: #000000;"">Logout</a>
+                        </ul>
+                    </li>
+
+                </ul>
+                        <a class="nav-link" href="{% url 'carts:wishlist' %}"><i class="ti-heart" style="font-size: 24px;"></i></a>
+                        <a class="nav-link" href="{% url 'carts:cart' %}" ><i class="fas fa-cart-plus" style="font-size: 24px;"></i></a>
+                    {%endif%}
+                </div>
+            </div>
+        </nav>
+        </header>
+    <center>
+    <section class="banner_part" style="width:100%;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <div class="banner_slider owl-carousel">
+                        {%for i in top3products%}
+                        <div class="single_banner_slider">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-8">
+                                    <div class="banner_text">
+                                        <div class="banner_text_iner">
+                                            <h1>{{i.product_name}}</h1>
+                                            <p>{{i.description}}</p>
+                                            <a href="{% url 'carts:addtocart' i.id  %}" class="btn_2">Buy Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="banner_img d-none d-lg-block">
+                                    <img src="{{ i.images.url }}" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </center>
+    <!-- banner part start-->
+
+    <!-- feature_part start-->
+    <section class="feature_part padding_top">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section_tittle text-center">
+                        <h2>Featured Category</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-between">
+                {% for cat in category %}
+                <div class="col-lg-6 col-sm-6">
+                    <div class="single_feature_post_text">
+                        <p>{{cat.slug}}</p>
+                        <h3>{{cat.category_name}}</h3>
+                        <a href="{% url 'category_with_id' cat.id %}" class="feature_btn">EXPLORE NOW <i class="fas fa-play"></i></a>
+                        <img src= "{{cat.cat_image.url}}"alt="" style="width: 50%;height:80%">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- upcoming_event part start-->
+
+    <!-- product_list start-->
+    <section class="product_list section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="section_tittle text-center">
+                        <h2>Furnitures</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product_list_slider owl-carousel">
+                        <div class="single_product_list_slider">
+                            <div class="row align-items-center justify-content-between">
+                                 {% for pro in products %}
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="single_product_item">
+                                        <div style="width: 90%;height:90%">
+                                            <img src="{{pro.images.url}}" alt="" >
+                                        </div>
+                                        <div class="single_product_text">
+                                            <h4>{{pro.product_name}}</h4>
+                                            <h3>{{pro.price}}</h3>
+                                            {% if pro.stock > 0 %}
+                              <a href="{% url 'carts:addtocart' pro.id  %}" class="add_cart">+ add to cart</a>
+                              {%else%}
+                              <a href="{% url 'category_with_id' 0 %}"class="add_cart">Out of Stock</a>
+                              {%endif%}
+                              <a href="{% url 'carts:addToWish' pro.id  %}"><i class="ti-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- product_list part start-->
+
+    <!-- awesome_shop start-->
+    <section class="our_offer section_padding">
+        <div class="container">
+            <center>
+                <h3>You can Now Apply these Coupons to get discount. Don't Stop... Keep Shopping!</h3>
+            </center>
+        </br>
+    </br>
+            <div class="row align-items-center justify-content-between">
+                {% for item in remaining_time_array %}
+                <div class="col-lg-6 col-md-6">
+                    <div class="offer_img">
+                        <div class="coupon">
+                            <div class="container">
+                                <div class="container" >
+                                    <h4><b> Get {{item.coupon.discount}}% OFF on ALL YOUR PURCHASES ABOVE ₹{{item.coupon.min_value}}</b></h4>
+                                </div>
+                                <div class="container">
+                                    <h3>
+                                    <h3> Use Promo Code: {{item.coupon.code}}<br/>  </h3>
+                                            Expires: {{item.coupon.valid_at}}
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="col-lg-6 col-md-6">
+                    <div class="offer_text">
+                         <div class="date_countdown1" id="countDown" data-date="{{ item.date }}">
+                            <div id="timer" style="display:flex">
+                                <div id="days" class="date"></div>
+                                <div id="hours" class="date"></div>
+                                <div id="minutes" class="date"></div>
+                                <div id="seconds" class="date"></div>
+                          
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <hr style="height:2px; width:100%; border-width:0; color:black; background-color:red">
+                {%endfor%}
+
+            </div>
+        </div>
+    </section>
+    <!-- awesome_shop part start-->
+
+    <!-- product_list part start-->
+    <!-- product_list part start-->
+    <section class="product_list best_seller section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="section_tittle text-center">
+                        <h2>Best Sellers <span>shop</span></h2>
+                    </div>
+                </div>
+            </div>
+           <div class="row align-items-center justify-content-between">
+                <div class="col-lg-12">
+                    <div class="best_product_slider owl-carousel">
+                        {% for pro in products %}
+                        <div class="single_product_item">
+                            <img src="{{ pro.images.url }}" alt="">
+                            <div class="single_product_text">
+                                <h4>{{ pro.product_name }}</h4>
+                                <h3>${{pro.price}}</h3>
+                                <h5>
+                                    {% if pro.stock > 0 %}
+                                        <a href="{% url 'carts:addtocart' pro.id  %}" class="add_cart">+ add to cart</a>
+                                    {%else%}
+                                        <a href="{% url 'category_with_id' 0 %}"class="add_cart">Out of Stock</a>
+                                    {%endif%}
+                                        <a href="{% url 'carts:addToWish' pro.id  %}"><i class="ti-heart"></i></a>
+                                </h5>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- product_list part end-->
+    <!-- product_list part end-->
+
+    <!-- subscribe_area part start-->
+    <section class="subscribe_area section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="subscribe_area_text text-center">
+                        <h5>Shop With Us</h5>
+                        <h2>Upgrade Your Life with Homely Furnitures</h2>
+                                <a href="{% url 'category'%}" class="input-group-text btn_2" id="basic-addon2">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--::subscribe_area part end::-->
+
+    <!--::footer_part start::-->
+    <footer class="footer_part">
+        <div class="container">
+            <div class="row justify-content-around">
+                <div class="col-sm-6 col-lg-2">
+                    <div class="single_footer_part">
+                        <h4>Shop</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'category' %}">Chairs</a></li>
+                            <li><a href="{% url 'category' %}">Sofa Sets</a></li>
+                            <li><a href="{% url 'category' %}">Wadrobe</a></li>
+                            <li><a href="{% url 'category' %}">Dining Table</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="single_footer_part">
+                        <h4>Quick Links</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'userapp:home' %}">Home</a></li>
+                            <li><a href="">Contact Us</a></li>
+                            <li><a href="{% url 'userapp:login' %}">Login</a></li>
+                            <li><a href="{% url 'userapp:user_register' %}">Register</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="single_footer_part">
+                        <h4>Features</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="">Quality Furniture</a></li>
+                            <li><a href="">Quality Services</a></li>
+                            <li><a href="">Quality Customer Support</a></li>
+                            <li><a href="">Value for money</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="single_footer_part">
+                        <h4>Resources</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="">Guides</a></li>
+                            <li><a href="">Research</a></li>
+                            <li><a href="">Experts</a></li>
+                            <li><a href="">Agencies</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </footer>
+    <!--::footer_part end::-->
+
+   <script src="{% static 'js/jquery-1.12.1.min.js' %}"></script>
+    <!-- popper js -->
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <!-- bootstrap js -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- easing js -->
+    <script src="{% static 'js/jquery.magnific-popup.js' %}"></script>
+    <!-- swiper js -->
+    <script src="{% static 'js/swiper.min.js' %}"></script>
+    <!-- swiper js -->
+    <script src="{% static 'js/masonry.pkgd.js' %}"></script>
+    <!-- particles js -->
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <!-- slick js -->
+    <script src="{% static 'js/slick.min.js' %}"></script>
+    <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'js/waypoints.min.js' %}"></script>
+    <script src="{% static 'js/contact.js' %}"></script>
+    <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'js/jquery.form.js' %}"></script>
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'js/mail-script.js' %}"></script>
+    <!-- custom js -->
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/timer.js' %}"></script>
+</body>
+
+</html>

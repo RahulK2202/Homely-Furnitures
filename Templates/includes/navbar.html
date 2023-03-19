@@ -1,0 +1,66 @@
+{% load static %}
+<br/>
+<header class="top-margin: 10px;">
+<nav class="navbar navbar-expand-lg navbar-light sticky-top"style="background-image: linear-gradient(to right, #f4f2f5, #FFD54F); ">
+    <a class="navbar-brand" href="{% url 'userapp:home' %}"> <img src="{% static 'img/homely.png' %}" style="width:200px " alt="logo"> </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" style="background-image: linear-gradient(to right, #f4f2f5, #FFD54F); " id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'userapp:home' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'category' %}">Shop</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="">Contact Us</a>
+            </li>
+            {% if user.id is None %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'userapp:login' %}">Login</a>
+                </li>
+            {%endif%}
+        </ul>
+        <div >
+            <!-- <input type="text" class="form-control mr-sm-2" name="keyword" placeholder="Search" style="display: inline-block;" aria-label="Search" style="width: 75%;"> -->
+            <!-- <button class="btn btn-outline-success my-2 my-sm-0" style="border-radius: 10px;"style="display: inline-block;"type="submit">Search</button> -->
+            <form method="GET" action="{% url 'search' %}" class="form-inline my-2 my-lg-0" style="display: inline-block;">
+                <div class="input-group">
+                    <div class="form-outline">
+                        <input type="text" name="keyword" placeholder="Search" class="form-control me-2" style="border-radius: 6px;" />
+                    </div>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="d-flex justify-content-between">
+            {%if user.id is not None%}
+            <ul>
+                <li class="nav-item nav-link">Hi, {{user.username}}</li>
+            </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" type="button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="far fa-user-circle"></i> &nbsp;My Profile
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #000000;">
+                            <a class="dropdown-item" href="{% url 'userapp:dashboard' %}" style="background-color: #000000;">My Account</a>
+                            <a class="dropdown-item" href="{% url 'order:myorders' %}" style="background-color: #000000;">My Orders</a>
+                            <div class="dropdown-divider " ></div>
+                            <a class="dropdown-item" href="{% url 'userapp:logout' %}" style="background-color: #000000;"">Logout</a>
+                        </ul>
+                    </li>
+
+                </ul>
+                <a class="nav-link" href="{% url 'carts:wishlist' %}"><i class="ti-heart" style="font-size: 24px;"></i></a>
+                <a class="nav-link" href="{% url 'carts:cart' %}" ><i class="fas fa-cart-plus" style="font-size: 24px;"></i></a>
+            {%endif%}
+        </div>
+    </div>
+</nav>
+</header>

@@ -1,0 +1,77 @@
+{% extends 'admin/adminbase.html' %}
+{% block main  %}
+
+<style>
+
+  .form-outline input {
+    width: 100%;
+  }
+  </style>
+  
+<h2>Add Coupon</h2>
+<form method="post">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-12">
+            <div class="form-outline">
+              <label class="form-label">Coupon Code</label>
+              
+              {{form.code}}
+            </div>
+          </div>
+          <br/>
+          <div class="col-12">
+            <div class="form-outline">
+              <label class="form-label" >Discount Percentage</label>
+              {{form.discount}}
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-outline">
+              <label class="form-label">Minimum Value</label>
+              {{form.min_value}}
+            </div>
+          </div>
+          <br/><br/><br/>
+          <div class="col-12">
+            <div class="form-outline">
+              <label class="form-label" >Valid From</label>
+              {{form.valid_from}}
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-outline">
+              <label class="form-label">Valid Till</label>
+              {{form.valid_at}}
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="form-check">
+          {{form.active}}
+          <label class="form-check-label" for="flexCheckChecked">
+            Active
+          </label>
+        </div>
+        <center>
+          <div class="mt-5 text-center">
+                            <button class="btn btn-primary profile-button" type="submit">
+                                Update Coupon
+                            </button>
+                        </div>
+        </center>
+      </form>
+
+{% if msg %}
+<script>
+    alert('{{msg}}')
+</script>
+{% endif %}
+
+{% endblock %}

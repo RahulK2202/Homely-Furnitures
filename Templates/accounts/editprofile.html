@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+input[name="profile_pic-clear"]{
+    display: none;
+}
+
+label[for="profile_pic-clear_id"]{
+    display: none;
+}
+label[for="id_profile_pic"]{
+    display: none;
+}
+
+label:contains("Profile pic:") {
+  display: none;
+}
+
+</style>
+
+<form action="" method="POST" class="mx-1 mx-md-4" enctype="multipart/form-data">
+
+            {% csrf_token %}
+<section class="section-conten padding_top">
+
+
+            <div class="container">
+            <div class="row">
+
+
+            <aside class="sidebar col-md-3">
+                <div class="sidebar-layout pt:5rem">
+                    <div class="sidebar-content">
+
+                        <ul class="list-group">
+                            <a href="{%url 'userapp:dashboard'%}" class="list-group-item">Dashboard test</a>
+                            <a href="{%url 'userapp:viewprofile' %}" class="list-group-item">View Profile</a>
+                            <a href="{%url 'userapp:editprofile' %}" class="list-group-item active">Edit Profile</a>
+                            <a href="{%url 'userapp:changepassword' %}" class="list-group-item">Change Password</a>
+                            <a href="{%url 'userapp:viewAddresses' %}" class="list-group-item">View All Address</a>
+                        <br>
+                        <a href="{%url 'userapp:logout'%}" class="btn btn-dark btn-block">
+                            <i class="fa fa-power-off">
+                            </i>  <span class="text">Logout</span>
+                        </a>
+                    </ul>
+
+            </div>
+            </div>
+
+            </aside>
+            <main class="col-md-9">
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    {% if user.profile_pic %}
+                        <img class="rounded-circle mt-5" width="150px" src="{{ user.profile_pic.url }}" alt="{{ user.username }} profile picture">
+                    {% else %}
+                        <img class="rounded-circle mt-5" width="150px" src="/static/images/default-profile-pic.jpg" alt="{{ user.username }} profile picture">
+                    {% endif %}
+                    <span class="font-weight-bold">{{user.username}}</span>
+                    <span class="text-black-50">{{user.email}}</span>
+                    <span> </span></div>
+                </div>
+                <div class="col-md-9 border-right">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right">Profile Settings</h4>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="labels">Email ID: </label>
+                                {{user.email}}
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="labels">First Name</label>
+                                {{form.first_name}}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">Last Name</label>
+                                {{form.last_name}}
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="labels">Mobile Number</label>
+                                {{form.phone}}
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">Address Line 1</label>
+                                {{form.address_line_1}}
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">Address Line 2</label>
+                                {{form.address_line_2}}
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">Postcode</label>
+                                {{form.pincode}}
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">City</label>
+                                {{form.city}}
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">State</label>
+                                {{form.state}}
+                            </div>
+                            <div class="col-md-12">
+                                <label class="labels">Update Profile Picture</label>
+                                {{ form.profile_pic.label_tag }}
+    {{ form.profile_pic }}
+                            </div>
+                        </div>
+
+                        <div class="mt-5 text-center">
+                            <button class="btn btn-primary profile-button" type="submit">
+                                Save Profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</main>
+</div>
+</div>
+</section>
+</form>
+{% endblock %}

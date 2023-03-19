@@ -1,0 +1,38 @@
+{% extends 'admin/adminbase.html' %}
+{% block main %}
+
+<h2>Add New Category</h2>
+<a href="{%url 'adminapp:viewcategory'%}" class="btn-3 float-end">
+            <i class="fa fa-reply"></i> Back</a>
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">Add Category</h5>
+        <div class="container-fluid">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Category Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="Category Name" required>
+                            <br/>
+                            <input type="text" name=" description" class="form-control" placeholder="Category  description" required>
+                            <br/>
+                            <input type="file" name="cat_image" class="form-control" required>
+                            <br/>
+                            <input type="hidden" id="slug" name="slug" value="{{ slug }}">
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Submit" class="m-2 px-3 btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if msg %}
+<script>
+    alert('{{msg}}')
+</script>
+{% endif %}
+{% endblock %}

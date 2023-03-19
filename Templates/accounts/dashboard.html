@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<section class="section-conten padding_top">
+
+
+            <div class="container">
+            <div class="row">
+
+
+            <aside class="sidebar col-md-3">
+                <div class="sidebar-layout pt:5rem">
+                    <div class="sidebar-content">
+
+                        <ul class="list-group">
+                            <a href="{%url 'userapp:dashboard'%}" class="list-group-item active">Dashboard</a>
+                            <a href="{%url 'userapp:viewprofile' %}" class="list-group-item">View Profile</a>
+                            <a href="{%url 'userapp:editprofile'  %}" class="list-group-item">Edit Profile</a>
+                            <a href="{%url 'userapp:changepassword' %}" class="list-group-item">Change Password</a>
+                            <a href="{%url 'userapp:viewAddresses' %}" class="list-group-item">View All Address</a>
+
+                            <br>
+
+                        <a href="{%url 'userapp:logout'%}" class="btn btn-dark btn-block">
+                            <i class="fa fa-power-off">
+                            </i>  <span class="text">Logout</span>
+                        </a>
+                    </ul>
+
+            </div>
+            </div>
+
+            </aside>
+            <main class="col-md-9">
+
+                <article class="card">
+                    <header class="card-header">
+                        <strong class="d-inline-block mr-3">
+                            Logged in as:
+                        </strong>
+                        <span>{{user.username}}</span>
+                    </header>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body"style="text-align:center">
+                                       <h5 class="card-title">
+                                            Total Orders
+                                        </h5>
+                                       <h4>{{orders_count}}</h4>
+                                       <a href="{% url 'order:myorders' %}">View orders</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card"style="text-align:center">
+                                    <div class="card-body">
+                                        {% if user.profile_pic %}
+                                        <img class="rounded-circle mt-5" width="100"height="100"style="border-radius:50%;" src="{{ user.profile_pic.url }}" alt="{{ user.username }} profile picture">
+                                    {% else %}
+                                        <img class="rounded-circle mt-5" width="100"height="100"style="border-radius:50%;" src="/static/images/default-profile-pic.jpg" alt="{{ user.username }} profile picture">
+                                    {% endif %}
+                                    <p class="mb-0">{{user.email}}</p>
+                                    <p>{{user.phone}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </main>
+            </div>
+            </div>
+        </section>
+{% endblock %}

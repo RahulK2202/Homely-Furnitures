@@ -1,0 +1,195 @@
+{%extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+ {% comment %}
+<section class="breadcrumb breadcrumb_bg">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="breadcrumb_iner">
+          <div class="breadcrumb_iner_item">
+            <h2>Product Checkout</h2>
+            <p>Home <span>-</span> Shop Single</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endcomment %}
+<br/>
+
+<section class="checkout_area padding_top">
+  <div class="container">
+    <h2>Product Checkout</h2>
+    <div class="billing_details">
+      <div class="row">
+        <div class="col-lg-8">
+          <h3>Billing Details</h3>
+          <form
+            class="row contact_form"
+            action="{% url 'order:place_order' %}"
+            method="POST"
+          >
+            {% csrf_token %}
+            <h4>Delivery Address: </h4>
+            <div class="col-md-6 form-group p_star">
+              <h3>
+                <label>{{addressSelected.first_name}} {{addressSelected.last_name}}</label>
+                <label>{{addressSelected.full_address}} </label>
+                <label>{{addressSelected.phone}} </label>
+                <label>{{addressSelected.email}} </label>
+              </h3>
+            </div>
+              <input type="hidden" class="form-control" value="{{addressSelected.id}}" name="addressSelected" placeholder="First Name"required />
+              <input type="hidden" class="form-control" value="{{addressSelected.first_name}}" name="first_name"placeholder="First Name"required />
+              <input type="hidden" class="form-control" id="last"value="{{addressSelected.last_name}}" name="last_name"placeholder="Last Name" required/>
+              <input
+                type="hidden"
+                class="form-control"
+                id="phone"value="{{addressSelected.phone}}"
+                name="phone"placeholder="Phone Number"required
+              />
+              <input
+                type="hidden"
+                class="form-control"
+                id="email"value="{{addressSelected.email}}"
+                name="email"placeholder="Email"
+                required/>
+              <input type="hidden" class="form-control" id="add1" value="{{addressSelected.address_line_1}}" name="address_line_1" placeholder="Address 1"required/>
+              <input type="hidden" class="form-control" id="add2" value="{{addressSelected.address_line_2}}" name="address_line_2" placeholder="Address 2"required/>
+              <input type="hidden" class="form-control" id="city" value="{{addressSelected.city}}" name="city"placeholder="City" required/>
+              <input type="hidden" class="form-control" id="state" value="{{addressSelected.state}}" name="state"placeholder="State" required/>
+              <input type="hidden" class="form-control" id="country" value="{{addressSelected.country}}" name="country"placeholder="Country" required/>
+              <input type="hidden" class="form-control" id="zip_code" name="zip_code"value="{{addressSelected.zip_code}}" placeholder="Postcode/ZIP" required/>
+              <!-- Coupon Related Fields -->
+              <input type="hidden" class="form-control" value="{{grand_total}}" name="grand_total" required/>
+              <input type="hidden" class="form-control" value="{{amountToBePaid}}" name="amountToBePaid" required/>
+              <input type="hidden" class="form-control" id="couponCode" value="{{coupon.code}}" name="couponCode" required/>
+              <input type="hidden" class="form-control" value="{{coupon_discount}}" name="couponDiscount" required/>
+              <div class="container">
+                {% for message in messages %}
+                  <div class="alert alert-danger" role="alert">
+                    {{message}}
+                  </div>
+                {% endfor %}
+                <input type="hidden" value="COD"name="payment_method">
+                <br/><br/>
+                <div class="col-md-12 form-group p_star">
+                  <center>
+                    <button type="submit" class=" btn btn-primary " style="height:50px ">Cash On Delivery | Place Order</button>
+          </form>
+                    <br/>
+                    <br/>
+                    <button type="button" id="payWithRazorpay"  class="btm  btn-primary" style="height:50px ">Pay with Razorpay</button>
+                  </center>
+                 </div>
+              </div>
+            </div>
+
+  <div class="col-lg-4">
+    <div class="order_box">
+      <h2>Your Order</h2>
+      <ul class="list">
+        <li>
+          <a href="#"
+            ><strong>Product</strong>
+
+            <span><strong>quantity</strong></span>
+          </a>
+        </li>
+        {% for cart_item in cart_items%}
+        <li>
+          <a href="#"
+            >{{cart_item.product.product_name}}
+
+            <span class="last">{{cart_item.quantity}}</span>
+          </a>
+        </li>
+        {%endfor%}
+      </ul>
+      <ul class="list list_2">
+        <li>
+          <a href="#"
+            >Total
+            <span>₹ {{total}}</span>
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            >Tax
+            <span>₹ {{tax}}</span>
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            >Grand Total
+            <span>₹ {{grand_total}}</span>
+          </a>
+        </li>
+        {% if discount %}
+        <li>
+          <span>
+            Coupon Applied.
+          </span>
+      </li>
+        <li>
+          <a href="#"
+            >Coupon Code : {{coupon.code}}
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            >Coupon Discount({{coupon.discount}}%)
+            <span>₹ {{coupon_discount}}</span>
+          </a>
+        </li>
+        <li>
+          <a href="#"
+            >Payable Amount
+            <span>₹ {{amountToBePaid}}</span>
+          </a>
+        </li>
+
+        {%endif%}
+      </ul>
+
+  </div>
+
+                  <div class="card mb-3">
+                    <div class="card-body">
+                        <form action="{% url 'carts:checkout' %}" id="coupon-form" method="POST" required>
+                          {%csrf_token%}
+                            <div class="form-group"> <label>Have coupon?</label>
+                                <div class="input-group">
+                                  <input type="hidden" class="form-control"value="{{grand_total}}" name="grand_total" required/>
+                                  <input type="hidden" class="form-control" value="{{addressSelected.id}}" name="addressSelected" required />
+                                  <input type="text" class="form-control coupon" name="couponCode" placeholder="Coupon code">
+                                  <span class="input-group-append">
+                                    <button class="btn btn-primary btn-apply coupon" {% if discount %}disabled{% endif %} >Apply</button>
+                                  </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+</div>
+</div>
+</div>
+</section>
+{% comment %} razorpay {% endcomment %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="{% static 'js/checkout.js' %}"></script>
+
+
+
+{% if msg %}
+<script>
+  console.log("here");
+  swal("Message", "{{msg}}", "info");
+
+</script>
+{% endif %}
+{% endblock %}

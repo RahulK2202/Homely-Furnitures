@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+  <!-- breadcrumb start-->
+  <!--================End Home Banner Area =================-->
+
+  <!--================Single Product Area =================-->
+  <div class="product_image_area section_padding">
+    <div class="container">
+      <div class="row s_product_inner justify-content-between">
+        <div class="col-lg-7 col-xl-7">
+          <div class="product_slider_img">
+            <div id="vertical">
+              <div data-thumb="{% static 'img/product/single-product/product_1.png' %}">
+                <img class='big_img' src="{{ s_pro.images.url }}" /> 
+              </div>
+          
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-xl-4">
+          <div class="s_product_text">
+            <h5>previous <span>|</span> next</h5>
+            <h3>{{s_pro.product_name}}</h3>
+            <h2>${{s_pro.price}}</h2>
+            <ul class="list">
+              <li>
+                <a class="active" href="#">
+                  <span>Category</span> : Household</a>
+              </li>
+              {% if s_pro.stock > 0 %}
+        <li>
+            <a href="#">
+                <span>Availability</span> : In Stock
+            </a>
+        </li>
+        {% else %}
+        <li>
+            <a href="#">
+                <span>Availability</span> : Out of Stock
+            </a>
+        </li>
+        {% endif %}
+            </ul>
+            <p>
+              {{s_pro.description}}
+            </p>
+            <div class="card_area d-flex justify-content-between align-items-center">
+           
+              {% if s_pro.stock > 0 %}
+              <form action="{% url 'carts:addtocart' product_id=s_pro.id  %}" method="POST" class="in-line" style="display: inline-block;">
+                {% csrf_token %}
+              <div class="product_count" style="display: inline-block;">
+                <a class="inumber-decrement"> <i class="ti-minus"></i></a>
+                <input class="input-number" type="text" name="quantity" value="1" min="0" max="10">
+                <a  class="number-increment"> <i class="ti-plus"></i></a>
+              </div>
+              <button type="submit" class="btn_3">Add to Cart</button>
+            </form>
+{% else %}
+<h4>Product Out of stock! Try Later</h4>
+
+{%endif%}
+
+              
+            <a href="{% url 'carts:addToWish' product_id=s_pro.id  %}" class="like_us"> <i class="ti-heart"></i> </a>
+           
+           
+           
+           
+           
+          
+           
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--================End Single Product Area =================-->
+
+  <!--================Product Description Area =================-->
+  <section class="product_description_area">
+   
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </section>
+  <!--================End Product Description Area =================-->
+
+  <!-- product_list part start-->
+  
+  <script>
+    // Get the input field element
+  var input = document.querySelector(".input-number");
+  
+  // Get the minus and plus buttons
+  var minusButton = document.querySelector(".inumber-decrement");
+  var plusButton = document.querySelector(".number-increment");
+  
+  // Add event listeners to the minus and plus buttons
+  minusButton.addEventListener("click", function() {
+    // Get the current value of the input field
+    var currentValue = parseInt(input.value);
+  
+    // If the current value is greater than the minimum allowed value
+    if (currentValue > parseInt(input.min)) {
+      // Decrement the value
+      input.value = currentValue - 1;
+    }
+  });
+  
+  plusButton.addEventListener("click", function() {
+    // Get the current value of the input field
+    var currentValue = parseInt(input.value);
+  
+    // If the current value is less than the maximum allowed value
+    if (currentValue < parseInt(input.max)) {
+      // Increment the value
+      input.value = currentValue + 1;
+    }
+  });
+  
+  </script>
+
+  {% endblock %}

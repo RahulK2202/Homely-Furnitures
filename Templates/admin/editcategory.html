@@ -1,0 +1,37 @@
+{% extends 'admin/adminbase.html' %}
+{% block main %}
+<h2>Edit Category</h2>
+<a href="{%url 'adminapp:viewcategory'%}" class="btn-3 float-end">
+            <i class="fa fa-reply"></i> Back</a>
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">Update Category</h5>
+        <div class="container-fluid">
+            <form action="{% url 'adminapp:editcategory' category.id %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Category Name</label>
+                            <input type="text" name="name" class="form-control" value="{{category.category_name}}" placeholder="Category Name">
+                            <br/>
+                            <input type="text" name="description" class="form-control" value="{{category.description}}" placeholder="Category Description">
+                            <br/>
+                            <label>Upload image, if you want to change the image of category.</label>
+                            {{category.cat_image}}
+                            <input type="file" name="cat_image" class="form-control" value = "" placeholder="Category Image">
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Submit" class="m-2 px-3 btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if msg %}
+<script>
+    alert('{{msg}}')
+</script>
+{% endif %}
+{% endblock %}

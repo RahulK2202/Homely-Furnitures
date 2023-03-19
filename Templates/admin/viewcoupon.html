@@ -1,0 +1,99 @@
+{% extends 'admin/adminbase.html' %}
+{% block main  %}
+<style>
+        table,
+        th,
+        td {
+            text-align: center;
+        }
+</style>
+<a href="{%url 'adminapp:admindashboard'%}" class="btn-3 float-end">
+            <i class="mdi mdi-keyboard-backspace"></i> Back</a>
+    <h1>Coupons</h1>
+
+<br/>
+{% if keyword %}
+    <h3>
+                            Search results for "{{keyword}}" are:
+                        </h3>
+                    {%endif%}
+<br/>
+
+    <nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                    <i class="mdi mdi-chevron-double-left"></i>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                    <i class="mdi mdi-chevron-left"></i>
+                </a>
+            </li>
+        {% endif %}
+        {% for page in page_obj.paginator.page_range %}
+            {% if page_obj.number == page %}
+                <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+            {% elif page > page_obj.number|add:'-3' and page < page_obj.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                    <i class="mdi mdi-chevron-right"></i>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                    <i class="mdi mdi-chevron-double-right"></i>
+                </a>
+            </li>
+        {% endif %}
+        <li class="ml-auto" style ="margin-right:8%">
+        <div >
+            <form method="GET" action="{% url 'adminapp:searchcoupon' %}" class="form-inline my-2 my-lg-0" style="display: inline-block;">
+                <div class="input-group">
+                    <div class="form-outline">
+                        <input type="text" name="keyword" placeholder="Search" class="form-control me-2" style="border-radius: 6px;" />
+                    </div>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="mdi mdi-magnify"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        </li>
+    </ul>
+</nav>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Discount</th>
+                <th>Min Value</th>
+                <th>Valid From</th>
+                <th>Valid At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for coupon in page_obj %}
+                <tr>
+                    <td>{{ coupon.code }}</td>
+                    <td>{{ coupon.discount }}</td>
+                    <td>{{ coupon.min_value }}</td>
+                    <td>{{ coupon.valid_from }}</td>
+                    <td>{{ coupon.valid_at }}</td>
+                    <td>
+                        <a href="{% url 'adminapp:editcoupon' coupon.id %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'adminapp:deletecoupon' coupon.id %}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

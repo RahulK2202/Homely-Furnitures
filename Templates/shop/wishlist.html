@@ -1,0 +1,78 @@
+{%extends 'base.html'%}
+{%load static%}
+{% block content %}
+
+
+    <section class="cart_area padding_top">
+       <center>
+           <h3>Wish List</h3>
+       </center>
+    <div class="container">
+        {%if not witems%}
+<h2 class="text-center">Your wish list is empty</h2>
+<div class="text-center">
+    <a href="{%url 'category'%}">Continue shopping..</a>
+</div>
+        {%else%}
+
+    <div class="cart_inner">
+    <div class="table-responsive">
+    <table class="table">
+    <thead>
+    <tr style="height:2px;">
+    <th scope="col">Product</th>
+    <th scope="col">Price</th>
+    <th></th>
+    </tr>
+    </thead>
+    <tbody>
+
+        {% for item in witems%}
+    <tr>
+    <td>
+    <div class="media">
+    <div class="d-flex">
+    <img style="height:71px"  src="{{item.product.images.url}}" alt=""/>
+    </div>
+    <div class="media-body">
+    <p>{{item.product.product_name}}</p>
+    </div>
+    </div>
+    </td>
+    <td>
+    <h5>${{item.product.price}}</h5>
+    </td>
+
+
+
+
+    </ul>
+    <td class="text-right">
+        {% if item.product.stock > 0 %}
+        <a href="{% url 'carts:addtocart' item.product.id %}">
+            <i class="fas fa-cart-plus"></i>
+        </a>
+        {%else%}
+        <a >
+            Currently, Out of Stock
+        </a>
+        {%endif%}
+
+     </td>
+    <td class="text-right">
+        <a href="{% url 'carts:removeWishItem' item.product.id %}">
+            <i class="fas fa-trash"></i>
+        </a>
+
+     </td>
+    </div>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+    {%endif%}
+    </div>
+    </section>
+{% endblock content %}

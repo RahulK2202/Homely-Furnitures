@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Success</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="#">Home<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="#">order confirmed</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+  <section class="order_details section_gap">
+    <div class="container">
+    <div class="d-flex justify-content-center">
+     <img width="100px"  src="https://image.pngaaa.com/423/5041423-middle.png" alt="">
+     </div>
+      <h3 class="title_confirmation" style="margin-top: 29px;">Thank you. Your order has been received.</h3>
+      <div class="row order_d_inner">
+        <div class="col-lg-6">
+          <div class="details_item">
+            <h4>Order Info</h4>
+            <ul class="list">
+              <li><a href="#"><span>Order number</span> : {{order.order_number}}</a></li>
+              <li><a href="#"><span>Order Date</span> : {{order.created_at}}</a></li>
+              <li><a href="#"><span>Payment method</span> : {{order.payment.payment_method}}</a></li>
+              <li><a href="#"><span>status</span> : {{order.status}}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="details_item">
+            <h4>Shipping Address</h4>
+            <ul class="list">
+                <li><a href="#"><span>Name</span> : {{order.address.full_name}}</a></li>
+              <li><a href="#"><span>Address</span> : {{order.address.full_address}}</a></li>
+              <li><a href="#"><span>Email </span> : {{order.address.email}}</a></li>
+              <li><a href="#"><span>Mob </span> : {{order.address.phone}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="order_details_table">
+        <h2>Order Details</h2>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"><strong>Product</strong></th>
+                <th scope="col"><strong>Unit Priice</strong></th>
+                <th scope="col"><strong>Quantity</strong></th>
+                 <th scope="col"><strong>Total</strong></th>
+              </tr>
+             </thead>
+            <tbody>
+            {% for item in orderitems %}
+              <tr>
+                <td>{{item.product.product_name}}
+                </td>
+                <td>
+                  {{item.product_price}}
+                </td>
+                <td>
+                  <h5>{{item.quantity}}</h5>
+                </td>
+                <td>
+                  <p>₹{{item.sub_total}}</p>
+                </td>
+              </tr>
+              {% endfor %}
+              <tr>
+                <td>
+                  <h4>Net total</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p>₹{{total}}</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Tax</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p>₹{{order_details.tax}}</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Grand total</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p style="color:red;">₹{{order.order_total}}</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+{%endblock%}

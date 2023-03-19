@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<section class="section-conten padding_top">
+
+
+            <div class="container">
+            <div class="row">
+
+
+            <aside class="sidebar col-md-3">
+                <div class="sidebar-layout pt:5rem">
+                    <div class="sidebar-content">
+
+                        <ul class="list-group">
+                            <a href="{%url 'userapp:dashboard'%}" class="list-group-item">Dashboard</a>
+                            <a href="{%url 'userapp:viewprofile' %}" class="list-group-item">View Profile</a>
+                            <a href="{%url 'userapp:editprofile'  %}" class="list-group-item">Edit Profile</a>
+                            <a href="{%url 'userapp:changepassword' %}" class="list-group-item">Change Password</a>
+                            <a href="{%url 'userapp:viewAddresses' %}" class="list-group-item active">View All Address</a>
+
+                        <br>
+                        <a href="{%url 'userapp:logout'%}" class="btn btn-dark btn-block">
+                            <i class="fa fa-power-off">
+                            </i>  <span class="text">Logout</span>
+                        </a>
+                    </ul>
+
+            </div>
+            </div>
+
+            </aside>
+            <main class="col-md-9">
+
+<article class="card">
+
+    <header class="card-header ml-auto">
+                            <a href="{% url 'userapp:addNewAddress' 0 %}" class="btn btn-info" role="button">+ Add New Address</a>
+                        </header>
+                    <div class="card-body">
+                        <div class="row">
+
+<div class="container">
+                    {% for message in messages %}
+
+            <div class="alert alert-danger" role="alert">
+
+              {{message}}
+            </div>
+            {% endfor %}
+    <h4 class="font-weight-bold mt-0 mb-4">Manage Addresses</h4>
+    {% for address in AllAddress%}
+    <div class="col-md-9">
+        <div class="row bg-white card addresses-item mb-4 border border-primary shadow">
+            <div class="osahan-account-page-right shadow-sm bg-white p-4 h-100">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade  active show" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
+                        <h3 class="mb-1 text-secondary">{{address.first_name}} {{address.last_name}} {{address.str}}</h3>
+                        <h5 class="mb-1 text-secondary">{{address.phone}}</h5>
+                        <h5 class="mb-1 text-secondary">{{address.email}}</h5>
+                        <p class="text-black">{{address.address_line_1}}, {{address.address_line_2}},<br/> {{address.city}}, {{address.state}}, {{address.country}}, <br/> Pin: {{address.zip_code}}</p>
+                        <p class="mb-0 text-black font-weight-bold">
+                            <a class="text-primary mr-3"  href="{%url 'userapp:editAddress' address.id  %}">
+                                EDIT
+                            </a>
+                            <a class="text-danger"href="{%url 'userapp:deleteAddress' address.id  %}">
+                                DELETE</a>
+                            </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor%}
+</div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </article>
+
+            </main>
+            </div>
+            </div>
+        </section>
+{% endblock %}
