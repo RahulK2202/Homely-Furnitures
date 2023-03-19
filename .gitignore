@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 homely/.env
 db.sqlite3
-.vscode
+.vscode/
