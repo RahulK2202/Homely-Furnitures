@@ -230,7 +230,7 @@ def viewOrder(request, id):
 def cancelOrder(request,id):
 
    client = razorpay.Client(auth=(homely.settings.API_KEY, homely.settings.RAZORPAY_SECRET_KEY))
-   # client = razorpay.Client(auth=("rzp_test_d8CuRUKczNyzCd", "8rt6NVn4AxDo7FCkDPmq9k8l"))
+  
    order = Order.objects.get(id=id,user=request.user)
    payment=order.payment
    msg=''

@@ -77,8 +77,7 @@ def adminLogin(request):
 def adminHome(request):
     return render(request, 'admin/adminbase.html')
 
-@user_passes_test(lambda u: u.is_superuser)
-@never_cache
+
 @user_passes_test(lambda u: u.is_superuser)
 @never_cache
 def adminDashboard(request):

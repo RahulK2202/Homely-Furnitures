@@ -42,7 +42,7 @@ $(document).ready(function () {
                 success: function (response) {
                     console.log(response, amountToBePaid);
                     var options = {
-                        // key: "rzp_test_d8CuRUKczNyzCd",
+                      
                         key: "API_KEY", 
                         // Enter the Key ID generated from the Dashboard
                         amount: response.amountToBePaid * 100, //response.total_price *100 , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -51,7 +51,7 @@ $(document).ready(function () {
                         description: "Thank you",
                         image: "https://info.homely.mx/images/logos/homely.png",
                         handler: function (responseb) {
-                            // alert(responseb.razorpay_payment_id);
+                       
                             console.log("56");
                             data = {
                                 'first_name': first_name,
