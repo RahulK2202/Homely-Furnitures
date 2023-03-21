@@ -35,9 +35,10 @@ def calculateNumberOfOrdersByPaymentMethod():
         print(payment_method,count)
         if(payment_method=="Paid by Razorpay"):
             payment_method = "Razorpay"
-        payment_percentages[payment_method] = round((count / total_payments) * 100, 2)
+        payment_percentages[payment_method] = round((count / total_payments) * 100)
         print( payment_percentages[payment_method])
     return payment_percentages
+
 
 def revenue():
     today = timezone.now().date()
@@ -90,13 +91,17 @@ def adminDashboard(request):
 
     # Calculate the payment sum for COD
     cod_sum = Payment.objects.filter(payment_method='COD').aggregate(Sum('amount_paid'))['amount_paid__sum'] or 0
+    cod_sum= round(cod_sum)
     # Calculate the payment sum for Razorpay
     razorpay_sum = Payment.objects.filter(payment_method='Paid by Razorpay').aggregate(Sum('amount_paid'))['amount_paid__sum'] or 0
+    razorpay_sum = round(razorpay_sum)
     payment_percentages = calculateNumberOfOrdersByPaymentMethod()
     total_income_today=revenue()
+    total_income_today = round(total_income_today)
     count_today =orderStat()
     products_out_of_stock = Product.objects.filter(stock__lte=0)
     print(products_out_of_stock)
+    total_income = round(total_income)
     context={
         'numberOfOrders': numberOfOrders,
         'numberOfUsers': numberOfUsers,
@@ -330,7 +335,8 @@ def updateOrder(request, id):
 
 
 
-
+@user_passes_test(lambda u: u.is_superuser)
+@never_cache
 def addCoupon(request):
     if request.method == 'POST':
         form = CouponForm(request.POST)
@@ -341,6 +347,8 @@ def addCoupon(request):
         form = CouponForm()
     return render(request, 'admin/addcoupon.html', {'form': form})
 
+@user_passes_test(lambda u: u.is_superuser)
+@never_cache
 def viewCoupon(request):
     coupons = Coupon.objects.all()
     paginator = Paginator(coupons, 3)
@@ -401,6 +409,7 @@ def searchUser(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'admin/viewusers.html', locals())
+
 @user_passes_test(lambda u: u.is_superuser)
 @never_cache
 def searchOrder(request):
@@ -412,6 +421,7 @@ def searchOrder(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'admin/manageorder.html', locals())
+
 @user_passes_test(lambda u: u.is_superuser)
 @never_cache
 def searchProduct(request):
@@ -421,6 +431,7 @@ def searchProduct(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'admin/viewproduct.html', locals())
+
 @user_passes_test(lambda u: u.is_superuser)
 @never_cache
 def searchCoupon(request):
@@ -430,6 +441,7 @@ def searchCoupon(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'admin/viewcoupon.html', locals())
+
 @user_passes_test(lambda u: u.is_superuser)
 @never_cache
 def searchCategory(request):
