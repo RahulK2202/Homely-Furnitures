@@ -404,11 +404,22 @@ def trigerEmail(request):
 @never_cache
 def searchUser(request):
     keyword = request.GET.get('keyword')
-    users = Customer.objects.filter(Q(username__icontains=keyword) | Q(email__icontains=keyword))
+    users = Customer.objects.filter(Q(email__icontains=keyword))
     paginator = Paginator(users, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'admin/viewusers.html', locals())
+
+@user_passes_test(lambda u: u.is_superuser)
+@never_cache
+def searchManageUser(request):
+    keyword = request.GET.get('keyword')
+    users = Customer.objects.filter(Q(username__icontains=keyword) | Q(email__icontains=keyword))
+    # users = Customer.objects.filter(Q(email__icontains=keyword))
+    paginator = Paginator(users, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'admin/manageuser.html', locals())
 
 @user_passes_test(lambda u: u.is_superuser)
 @never_cache

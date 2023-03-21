@@ -41,6 +41,7 @@ urlpatterns = [
     path('searchProduct/',views.searchProduct,name="searchproduct"),
     path('searchCoupon/',views.searchCoupon,name="searchcoupon"),
     path('vieworder/<int:id>', views.viewOrder, name="vieworder"),
+    path('searchManageUser/',views.searchManageUser,name="searchmanageuser"),
 
 
 

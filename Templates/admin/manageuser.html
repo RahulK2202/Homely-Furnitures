@@ -1,4 +1,3 @@
-
 {% extends 'admin/adminbase.html' %}
 {% block main %}
 <a href="{%url 'adminapp:admindashboard'%}" class="btn-3 float-end">
@@ -12,49 +11,61 @@
 {%endif%}
 <br/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 <div class="card shadow">
     <div class="card-body">
-
         <h5 class="p-2" style="border-bottom: 2px solid orange;">All Registered User </h5>
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page=1" aria-label="First">
-                    <i class="mdi mdi-chevron-double-left"></i>
-                </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                    <i class="mdi mdi-chevron-left"></i>
-                </a>
-            </li>
-        {% endif %}
-        {% for page in page_obj.paginator.page_range %}
-            {% if page_obj.number == page %}
-                <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
-            {% elif page > page_obj.number|add:'-3' and page < page_obj.number|add:'3' %}
-                <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
-            {% endif %}
-        {% endfor %}
-        {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                    <i class="mdi mdi-chevron-right"></i>
-                </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-                    <i class="mdi mdi-chevron-double-right"></i>
-                </a>
-            </li>
-        {% endif %}
-    </ul>
-</nav>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="First">
+                            <i class="mdi mdi-chevron-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="Previous">
+                            <i class="mdi mdi-chevron-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+                {% for page in page_obj.paginator.page_range %}
+                    {% if page_obj.number == page %}
+                        <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+                    {% elif page > page_obj.number|add:'-3' and page < page_obj.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page }}{% if keyword %}&keyword={{ keyword }}{% endif %}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="Next">
+                            <i class="mdi mdi-chevron-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="Last">
+                            <i class="mdi mdi-chevron-double-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+          <li class="ml-auto" style ="margin-right:8%">
+         <div >
+                    <form method="GET" action="{% url 'adminapp:searchmanageuser' %}" class="form-inline my-2 my-lg-0" style="display: inline-block;">
+                        <div class="input-group">
+                            <div class="form-outline">
+                                <input type="text" name="keyword" placeholder="Search" class="form-control me-2" style="border-radius: 6px;" />
+                            </div>
+                            &nbsp;&nbsp;&nbsp;
+                            <button type="submit" class="btn btn-outline-success">
+                                <i class="mdi mdi-magnify"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                </li>
+            </ul>
+        </nav>
         <div class="container-fluid">
             <table class="table table-striped table-bordered">
-
                 <thead>
                 <tr>
                     <th>S.No.</th>
@@ -73,11 +84,7 @@
                     {% comment %} <td>{{i.first_name}} {{i.last_name}}</td> {% endcomment %}
                     <td>{{i.username}}</td>
                     <td>{{i.email}}</td>
-
-
-
                     {% if i.is_active %}
-
                     {% if i.is_superuser %}
                     <td>is admin</td>
                     {% else %}
@@ -100,10 +107,6 @@
                            onclick="return confirm('Are You Sure?')">
                             <i class="fas  fa-trash-alt"></i>
                         </a></td> {% endcomment %}
-
-
-
-                                <!-- Modal -->
                                 <div class="modal fade" id="a{{i.id}}" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -120,7 +123,6 @@
                                                     {{i.username}}</h5>
                                             </div>
                                             <div class="modal-footer">
-
                                                 <a href="{% url 'adminapp:userblock' u_id=i.id %}" class="btn btn-danger btn-sm">Block</a>
                                                 <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                                             </div>
@@ -129,7 +131,6 @@
                                 </div>
                             </td>
                             {% else %}
-
                             <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                                     data-target="#a{{i.id}}">
                                     Unblock
@@ -162,14 +163,6 @@
                                 </div>
                             </td>
                             {% endif %}
-
-
-
-
-
-
-
-
                 </tr>
                 {% endfor %}
                 </tbody>

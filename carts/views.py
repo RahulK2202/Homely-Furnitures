@@ -14,7 +14,7 @@ from django.views.decorators.cache import never_cache
 
 
 # Create your views here.
-
+@never_cache
 @login_required(login_url='userapp:login')
 def addToCart(request, product_id):
     if request.user.is_authenticated :
@@ -107,7 +107,8 @@ def cart(request):
         'AllAddress': addresses
         }
         return render(request, 'shop/cart.html', context)
-
+    
+@never_cache
 @login_required(login_url='userapp:login')
 def addCartItem(request,product_id):
     if request.user.is_authenticated :
@@ -126,6 +127,7 @@ def addCartItem(request,product_id):
         messages.warning(request, "Please log in to add items to cart.")
         return redirect('carts:cart')
 
+@never_cache
 @login_required(login_url='userapp:login')
 def removeCartItem(request,product_id):
     current_user = request.user
@@ -141,6 +143,7 @@ def removeCartItem(request,product_id):
             cart_item.save()  # decrement the quantity by 1
     return redirect('carts:cart')
 
+@never_cache
 @login_required(login_url='userapp:login')
 def removeCartProduct(request,product_id):
     current_user = request.user
@@ -162,6 +165,7 @@ def wishlist(request):
     }
     return render(request,'shop/wishlist.html',context)
 
+@never_cache
 @login_required(login_url='userapp:login')
 def addToWish(request,product_id):
     if request.user.is_authenticated:
@@ -174,7 +178,8 @@ def addToWish(request,product_id):
             return redirect('carts:wishlist')
     else:
         return redirect('userapp:login')
-
+    
+@never_cache
 @login_required(login_url='userapp:login')
 def removeWishItem(request,product_id):
     user = request.user

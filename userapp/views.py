@@ -22,6 +22,7 @@ from django.conf import settings
 from category.models import Category
 from datetime import datetime
 from order.models import Coupon
+from django.views.decorators.cache import never_cache
 
 
 # Create your views here.
@@ -134,7 +135,7 @@ def register(request):
 
 
 
-
+@never_cache
 def login(request):
     if request.user.is_authenticated:
         return redirect('userapp:home')
@@ -161,7 +162,7 @@ def login(request):
     else:
         return render(request, 'accounts/login.html')
 
-
+@never_cache
 @login_required(login_url='login')
 def editprofile(request):
     id = request.user.id
@@ -184,6 +185,7 @@ def editprofile(request):
 def viewprofile(request):
     return render(request, 'accounts/viewprofile.html')
 
+@never_cache
 @login_required(login_url='userapp:login')
 def changepassword(request):
     if request.method=='POST':
@@ -211,7 +213,7 @@ def changepassword(request):
             return redirect('userapp:changepassword')
     return render(request,"accounts/changepassword.html")
 
-
+@never_cache
 def forgotPassword(request):
     if request.method=="POST":
         email=request.POST['email']
@@ -242,7 +244,7 @@ def forgotPassword(request):
             return redirect('login')
     return render(request,'accounts/forgotPassword.html')
 
-
+@never_cache
 def resetPassword(request):
     if request.method=="POST":
         password=request.POST['password']
@@ -269,6 +271,7 @@ def dashboard(request):
 
     return render(request, 'accounts/dashboard.html', context)
 
+@never_cache
 def resetpassword_validate(request,uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
@@ -290,13 +293,14 @@ def viewAddresses(request):
     addresses=Address.objects.filter(user_id=current_user.id)
     return render(request, 'accounts/viewaddresses.html',{'AllAddress': addresses})
 
+@never_cache
 @login_required(login_url='userapp:login')
 def deleteAddress(request, address_id):
     address=Address.objects.get(id = address_id)
     address.delete()
     return redirect('userapp:viewAddresses')
 
-
+@never_cache
 @login_required(login_url='userapp:login')
 def editAddress(request, address_id):
     if request.method == 'POST':
@@ -323,6 +327,7 @@ def editAddress(request, address_id):
         address=Address.objects.get(id = address_id)
         return render(request,'accounts/editaddress.html', {"address": address})
 
+@never_cache
 @login_required(login_url='userapp:login')
 def addNewAddress(request, form_from):
     if request.method == 'POST':

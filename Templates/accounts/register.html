@@ -23,6 +23,11 @@
                   <div class="row justify-content-center my-3 px-3">
                     <button class="btn-block btn-color" type="submit">Verify OTP</button>
                   </div>
+                  {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                      {{message}}
+                    </div>
+                  {% endfor %}
                   <div class="row justify-content-center my-3 px-3">
                                       <small class="float-right text-muted">
   <i>
@@ -36,9 +41,7 @@
                    
                   </div>
                   
-                    <div class="alert alert-danger" role="alert">
-                      {{errors}}
-                    </div>
+                   
                   
               </form>
 
@@ -90,8 +93,12 @@
                   <div class="row justify-content-center my-3 px-3">
                     <button class="btn-block btn-color" type="submit">Sign in with HOMELY</button>
                   </div>
-                  {{errors}}
 
+              
+                  <div class="alert alert-danger" role="alert">
+                    {{errors}}
+                  </div>
+               
                   {% for message in messages %}
                   
                     <div class="alert alert-danger" role="alert">
