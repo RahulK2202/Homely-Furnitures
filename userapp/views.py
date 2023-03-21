@@ -26,6 +26,7 @@ from django.views.decorators.cache import never_cache
 
 
 # Create your views here.
+@never_cache
 def home(request):
     products = Product.objects.all().filter(is_available=True)
     category = Category.objects.all()
