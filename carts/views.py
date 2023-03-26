@@ -114,7 +114,9 @@ def addCartItem(request,product_id):
     if request.user.is_authenticated :
         current_user=request.user
         product = get_object_or_404(Product, id=product_id)
+        print(product)
         item=CartItem.objects.get(customer_id=current_user.id, product=product)
+        print(item)
         item.quantity = item.quantity + 1
         if (product.stock>item.quantity):
             item.save()

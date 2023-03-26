@@ -164,7 +164,7 @@ def login(request):
         return render(request, 'accounts/login.html')
 
 @never_cache
-@login_required(login_url='login')
+ 
 def editprofile(request):
     id = request.user.id
     user = Customer.objects.get(pk=id)
