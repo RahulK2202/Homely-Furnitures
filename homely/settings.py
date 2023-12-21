@@ -137,15 +137,14 @@ USE_I18N = True
 USE_TZ = True
 
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR /'static'
-# STATICFILES_DIRS=[os.path.join(BASE_DIR,'STATIC')]
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    # Other directories if needed...
-]
+# STATIC_URL = 'static/'
+# # STATIC_ROOT = BASE_DIR /'static'
+# # STATICFILES_DIRS=[os.path.join(BASE_DIR,'STATIC')]
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
