@@ -1,6 +1,7 @@
 {%extends 'base.html'%}
-{% load static %}
 
+{% load static %}
+{% load i18n %}
 {% block content %}
  {% comment %}
 <section class="breadcrumb breadcrumb_bg">
@@ -182,6 +183,13 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="{% static 'js/checkout.js' %}"></script>
+
+<script>
+  // Output API key as a data attribute
+  var razorpayApiKey = "{{API_KEY}}";
+</script>
+
+
 
 
 

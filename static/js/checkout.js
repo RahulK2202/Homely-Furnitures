@@ -41,10 +41,11 @@ $(document).ready(function () {
                 contentType: "application/json",
                 success: function (response) {
                     console.log(response, amountToBePaid);
-                    console.log(homely.settings.API_KEY)
+             
                     var options = {
                         
-                        key: homely.settings.API_KEY, 
+                        // key: homely.settings.API_KEY, 
+                        key: razorpayApiKey,
                         // Enter the Key ID generated from the Dashboard
                         amount: response.amountToBePaid * 100, //response.total_price *100 , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                         currency: "INR",

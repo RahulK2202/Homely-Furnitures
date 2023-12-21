@@ -17,6 +17,8 @@ from django.conf import settings
 from django.core.mail import send_mail
 import homely.settings
 
+
+
 # Create your views here.
 
 def calculateCartTotal(request):

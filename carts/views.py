@@ -11,6 +11,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_protect
 from order.models import Coupon, UserCoupon
 from django.views.decorators.cache import never_cache
+import homely.settings
+from django.conf import settings
 
 
 # Create your views here.
@@ -193,6 +195,7 @@ def removeWishItem(request,product_id):
 @csrf_protect
 @never_cache
 def checkout(request):
+    API_KEY=homely.settings.API_KEY
     total=0
     quantity=0
     amountToBePaid =0
@@ -277,7 +280,8 @@ def checkout(request):
         'msg':msg,
         'coupon':coupon,
         'coupon_discount': coupon_discount,
-        'discount': discount
+        'discount': discount,
+        'API_KEY':API_KEY
     }
     return render(request,'shop/checkout.html',context) 
 
